@@ -1,0 +1,106 @@
+; top-most EditorConfig file
+root = true
+
+[*]
+end_of_line = crlf
+charset = utf-8
+indent_style = space
+trim_trailing_whitespace = true
+
+[*.{ts,js}]
+indent_size = 2
+
+[*.{cs,vb}]
+indent_size = 4
+dotnet_style_qualification_for_field = false:error
+dotnet_style_qualification_for_property = false:error
+dotnet_style_qualification_for_method = false:error
+dotnet_style_qualification_for_event = false:error
+dotnet_style_predefined_type_for_locals_parameters_members = true:error
+dotnet_style_predefined_type_for_member_access = true:error
+dotnet_style_object_initializer = true:suggestion
+dotnet_style_collection_initializer = true:suggestion
+dotnet_style_explicit_tuple_names = true:warning
+dotnet_style_coalesce_expression = true:error
+dotnet_style_null_propagation = true:error
+dotnet_sort_system_directives_first = true:suggestion
+
+[*.cs]
+csharp_style_var_for_built_in_types = true:error
+csharp_style_var_when_type_is_apparent = true:error
+csharp_style_var_elsewhere = true:error
+csharp_style_expression_bodied_methods = true:suggestion
+csharp_style_expression_bodied_constructors = false:suggestion
+csharp_style_expression_bodied_operators = true:suggestion
+csharp_style_expression_bodied_properties = true:suggestion
+csharp_style_expression_bodied_indexers = true:suggestion
+csharp_style_expression_bodied_accessors = true:suggestion
+csharp_style_pattern_matching_over_is_with_cast_check = true:suggestion
+csharp_style_pattern_matching_over_as_with_null_check = true:suggestion
+csharp_style_inlined_variable_declaration = true:error
+csharp_style_throw_expression = true:error
+csharp_style_conditional_delegate_call = true:error
+csharp_indent_block_contents = true:error
+csharp_indent_braces = false:error
+csharp_indent_case_contents = true:warning
+csharp_indent_labels = no_change:warning
+csharp_indent_switch_labels = true:warning
+csharp_new_line_before_catch = true:warning
+csharp_new_line_before_finally = true:warning
+csharp_new_line_before_else = true:warning
+# If this is included, it does the OPPOSITE of what you'd think...for now
+#csharp_new_line_before_open_brace = types,methods,properties,control_blocks:warning
+csharp_new_line_before_members_in_object_initializers = true:suggestion
+csharp_space_before_colon_in_inheritance_clause = true:error
+csharp_space_after_colon_in_inheritance_clause = true:error
+csharp_space_before_dot = false:error
+csharp_space_after_dot = false:error
+csharp_space_after_keywords_in_control_flow_statements = true:suggestion
+csharp_space_before_open_square_brackets = false:error
+csharp_space_between_square_brackets = false:warning
+csharp_space_between_method_call_name_and_opening_parenthesis = false:warning
+csharp_space_between_method_call_empty_parameter_list_parentheses = false:warning
+csharp_space_between_method_call_parameter_list_parentheses = false:warning
+csharp_space_between_method_declaration_empty_parameter_list_parentheses = false:warning
+csharp_space_between_method_declaration_name_and_open_parenthesis = false:warning
+csharp_space_between_method_declaration_parameter_list_parentheses = false:warning
+csharp_space_between_parentheses = none:warning
+
+# Naming Conventions
+# End Async methods with Async
+[*.{cs,vb}]
+dotnet_naming_rule.async_methods_must_end_with_async.severity = warning
+dotnet_naming_rule.async_methods_must_end_with_async.symbols  = method_symbols
+dotnet_naming_rule.async_methods_must_end_with_async.style    = end_in_async_style
+dotnet_naming_symbols.method_symbols.applicable_kinds   = method
+dotnet_naming_symbols.method_symbols.required_modifiers = async
+dotnet_naming_style.end_in_async_style.capitalization  = pascal_case
+dotnet_naming_style.end_in_async_style.required_suffix = Async
+
+# Local private members start with _
+[*.{cs,vb}]
+dotnet_naming_rule.members_start_with_underscore.symbols = any_local_members
+dotnet_naming_rule.members_start_with_underscore.style = members_start_with_underscore
+dotnet_naming_rule.members_start_with_underscore.severity = error
+dotnet_naming_symbols.any_local_members.applicable_kinds           = field
+dotnet_naming_symbols.any_local_members.applicable_accessibilities = private
+dotnet_naming_style.members_start_with_underscore.required_prefix = _
+dotnet_naming_style.members_start_with_underscore.capitalization  = camel_case
+
+# Public members pascal cased
+[*.{cs,vb}]
+dotnet_naming_rule.public_members_must_be_capitalized.severity = warning
+dotnet_naming_rule.public_members_must_be_capitalized.symbols  = public_symbols
+dotnet_naming_rule.public_members_must_be_capitalized.style    = first_word_upper_case_style
+dotnet_naming_symbols.public_symbols.applicable_kinds   = property;method;field;event;delegate
+dotnet_naming_symbols.public_symbols.required_modifiers = public;internal;protected;protected_internal
+dotnet_naming_style.first_word_upper_case_style.capitalization = pascal_case
+
+# Non-public members must be camel cased
+[*.{cs,vb}]
+dotnet_naming_rule.non_public_members_must_be_camel_case.severity = warning
+dotnet_naming_rule.non_public_members_must_be_camel_case.symbols  = non_public_symbols
+dotnet_naming_rule.non_public_members_must_be_camel_case.style    = camel_case_style
+dotnet_naming_symbols.non_public_symbols.applicable_kinds   = property;field;event;delegate
+dotnet_naming_symbols.non_public_symbols.required_modifiers = private
+dotnet_naming_style.camel_case_style.capitalization = camel_case
