@@ -51,7 +51,6 @@
     <Compile Include="Objects\QualityUpdateFactory.cs" />
     <Compile Include="Updaters\AgedBrieQualityUpdater.cs" />
     <Compile Include="Updaters\BackstagePassesQualityUpdater.cs" />
-    <Compile Include="Updaters\ConjuredQualityUpdater.cs" />
     <Compile Include="Updaters\DoNothingQualityUpdater.cs" />
     <Compile Include="Updaters\StandardQualityUpdater.cs" />
   </ItemGroup>

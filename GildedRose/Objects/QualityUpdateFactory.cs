@@ -10,25 +10,23 @@ namespace GildedRose.Objects
     {
         public IQualityUpdater Create(string name)
         {
-            if (name == "Sulfuras, Hand of Ragnaros")
+            var conjured = name.StartsWith("Conjured");
+
+            if (name.ToLower().Contains("sulfuras"))
             {
-                return new DoNothingQualityUpdater();
+                return new DoNothingQualityUpdater(conjured);
             }
-            else if (name == "Aged Brie")
+            else if (name.ToLower().Contains("aged brie"))
             {
-                return new AgedBrieQualityUpdater();
+                return new AgedBrieQualityUpdater(conjured);
             }
-            else if (name == "Backstage passes to a Pentatonix concert")
+            else if (name.ToLower().Contains("backstage passes"))
             {
-                return new BackstagePassesQualityUpdater();
-            }
-            else if (name.Contains("Conjured"))
-            {
-                return new ConjuredQualityUpdater();
+                return new BackstagePassesQualityUpdater(conjured);
             }
             else
             {
-                return new StandardQualityUpdater();
+                return new StandardQualityUpdater(conjured);
             }
         }
     }

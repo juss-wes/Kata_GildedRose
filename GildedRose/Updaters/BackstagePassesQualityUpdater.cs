@@ -7,35 +7,35 @@ namespace GildedRose.Updaters
     /// </summary>
     public class BackstagePassesQualityUpdater : IQualityUpdater
     {
+        private bool _conjured { get; }
+
+        public BackstagePassesQualityUpdater(bool conjured = false)
+        {
+            _conjured = conjured;
+        }
+
         public void UpdateQuality(Item item)
         {
             item.SellIn--;
+            var qualityChange = 0;
 
             if (item.SellIn < 0)
-            {
                 item.Quality = 0;
-            }
             else if (item.SellIn <= 5)
-            {
-                if (item.Quality + 3 >= 50)
-                    item.Quality = 50;
-                else
-                    item.Quality += 3;
-            }
+                qualityChange = 3;
             else if (item.SellIn <= 10)
-            {
-                if (item.Quality + 2 >= 50)
-                    item.Quality = 50;
-                else
-                    item.Quality += 2;
-            }
+                qualityChange = 2;
             else
-            {
-                if (item.Quality + 1 >= 50)
-                    item.Quality = 50;
-                else
-                    item.Quality += 1;
-            }
+                qualityChange = 1;
+
+            // Double the change due to a "conjured" item
+            if (_conjured)
+                qualityChange *= 2;
+            
+            if (item.Quality + qualityChange >= 50)
+                item.Quality = 50;
+            else
+                item.Quality += qualityChange;
         }
     }
 }

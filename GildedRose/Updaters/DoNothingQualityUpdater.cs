@@ -7,6 +7,13 @@ namespace GildedRose.Updaters
     /// </summary>
     public class DoNothingQualityUpdater : IQualityUpdater
     {
+        private bool _conjured { get; }
+
+        public DoNothingQualityUpdater(bool conjured = false)
+        {
+            _conjured = conjured;
+        }
+
         public void UpdateQuality(Item item)
         {
             return;

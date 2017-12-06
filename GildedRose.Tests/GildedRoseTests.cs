@@ -47,19 +47,6 @@ namespace GildedRose.Tests
         }
 
         [TestMethod]
-        public void QualityFactorySelector_ConjuredItemUpdater()
-        {
-            // Arrange
-            var factory = new QualityUpdateFactory();
-
-            // Act
-            var updater = factory.Create("Conjured item");
-
-            // Assert
-            Assert.AreEqual(updater.GetType(), typeof(ConjuredQualityUpdater));
-        }
-
-        [TestMethod]
         public void QualityFactorySelector_StandardUpdater()
         {
             // Arrange
@@ -121,6 +108,38 @@ namespace GildedRose.Tests
         }
 
         [TestMethod]
+        public void StandardQualityUpdater_UpdateQuality_Conjured()
+        {
+            // Arrange
+            var updater = new StandardQualityUpdater(true);
+            var item = new Item { Name = "Conjured item", SellIn = 10, Quality = 42 };
+
+            // Act
+            updater.UpdateQuality(item);
+
+            // Assert
+            Assert.AreEqual(item.Name, "Conjured item");
+            Assert.AreEqual(item.SellIn, 9);
+            Assert.AreEqual(item.Quality, 40);
+        }
+
+        [TestMethod]
+        public void StandardQualityUpdater_UpdateQuality_Conjured_Expired()
+        {
+            // Arrange
+            var updater = new StandardQualityUpdater(true);
+            var item = new Item { Name = "Conjured item", SellIn = -5, Quality = 8 };
+
+            // Act
+            updater.UpdateQuality(item);
+
+            // Assert
+            Assert.AreEqual(item.Name, "Conjured item");
+            Assert.AreEqual(item.SellIn, -6);
+            Assert.AreEqual(item.Quality, 4);
+        }
+
+        [TestMethod]
         public void DoNothingQualityUpdater_UpdateQuality()
         {
             // Arrange
@@ -132,6 +151,22 @@ namespace GildedRose.Tests
 
             // Assert
             Assert.AreEqual(item.Name, "Sulfuras, Hand of Ragnaros");
+            Assert.AreEqual(item.SellIn, 10);
+            Assert.AreEqual(item.Quality, 80);
+        }
+
+        [TestMethod]
+        public void DoNothingQualityUpdater_UpdateQuality_Conjured()
+        {
+            // Arrange
+            var updater = new DoNothingQualityUpdater(true);
+            var item = new Item { Name = "Conjured Sulfuras, Hand of Ragnaros", SellIn = 10, Quality = 80 };
+
+            // Act
+            updater.UpdateQuality(item);
+
+            // Assert
+            Assert.AreEqual(item.Name, "Conjured Sulfuras, Hand of Ragnaros");
             Assert.AreEqual(item.SellIn, 10);
             Assert.AreEqual(item.Quality, 80);
         }
@@ -150,6 +185,22 @@ namespace GildedRose.Tests
             Assert.AreEqual(item.Name, "Aged Brie");
             Assert.AreEqual(item.SellIn, 9);
             Assert.AreEqual(item.Quality, 43);
+        }
+
+        [TestMethod]
+        public void AgedBrieUpdater_UpdateQuality_Conjured()
+        {
+            // Arrange
+            var updater = new AgedBrieQualityUpdater(true);
+            var item = new Item { Name = "Conjured Aged Brie", SellIn = 10, Quality = 42 };
+
+            // Act
+            updater.UpdateQuality(item);
+
+            // Assert
+            Assert.AreEqual(item.Name, "Conjured Aged Brie");
+            Assert.AreEqual(item.SellIn, 9);
+            Assert.AreEqual(item.Quality, 44);
         }
 
         [TestMethod]
@@ -249,35 +300,51 @@ namespace GildedRose.Tests
         }
 
         [TestMethod]
-        public void ConjuredUpdater_UpdateQuality()
+        public void BackstagePassUpdater_UpdateQuality_Conjured()
         {
             // Arrange
-            var updater = new ConjuredQualityUpdater();
-            var item = new Item { Name = "Conjured item", SellIn = 25, Quality = 40 };
+            var updater = new BackstagePassesQualityUpdater(true);
+            var item = new Item { Name = "Conjured Backstage passes to a Weird Al concert", SellIn = 25, Quality = 20 };
 
             // Act
             updater.UpdateQuality(item);
 
             // Assert
-            Assert.AreEqual(item.Name, "Conjured item");
+            Assert.AreEqual(item.Name, "Conjured Backstage passes to a Weird Al concert");
             Assert.AreEqual(item.SellIn, 24);
-            Assert.AreEqual(item.Quality, 38);
+            Assert.AreEqual(item.Quality, 22);
         }
 
         [TestMethod]
-        public void ConjuredUpdater_UpdateQuality_Expired()
+        public void BackstagePassUpdater_UpdateQuality_Conjured_Below10()
         {
             // Arrange
-            var updater = new ConjuredQualityUpdater();
-            var item = new Item { Name = "Conjured item", SellIn = -4, Quality = 15 };
+            var updater = new BackstagePassesQualityUpdater(true);
+            var item = new Item { Name = "Conjured Backstage passes to a Weird Al concert", SellIn = 9, Quality = 30 };
 
             // Act
             updater.UpdateQuality(item);
 
             // Assert
-            Assert.AreEqual(item.Name, "Conjured item");
-            Assert.AreEqual(item.SellIn, -5);
-            Assert.AreEqual(item.Quality, 11);
+            Assert.AreEqual(item.Name, "Conjured Backstage passes to a Weird Al concert");
+            Assert.AreEqual(item.SellIn, 8);
+            Assert.AreEqual(item.Quality, 34);
+        }
+
+        [TestMethod]
+        public void BackstagePassUpdater_UpdateQuality_Conjured_Below5()
+        {
+            // Arrange
+            var updater = new BackstagePassesQualityUpdater(true);
+            var item = new Item { Name = "Conjured Backstage passes to a Weird Al concert", SellIn = 3, Quality = 42 };
+
+            // Act
+            updater.UpdateQuality(item);
+
+            // Assert
+            Assert.AreEqual(item.Name, "Conjured Backstage passes to a Weird Al concert");
+            Assert.AreEqual(item.SellIn, 2);
+            Assert.AreEqual(item.Quality, 48);
         }
     }
 }
