@@ -1,90 +1,27 @@
 using System.Collections.Generic;
+using GildedRose.Interfaces;
+using GildedRose.Objects;
 
 namespace GildedRose
 {
     public class GildedRose
     {
         IList<Item> _items;
+        IQualityUpdateFactory _qualityFactory;
 
         public GildedRose(IList<Item> Items)
         {
             _items = Items;
+            _qualityFactory = new QualityUpdateFactory();
         }
 
         // Update the inventory item qualities
         public void UpdateQuality()
         {
-            for (var i = 0; i < _items.Count; i++)
+            foreach (var item in _items)
             {
-                if (_items[i].Name != "Aged Brie" && _items[i].Name != "Backstage passes to a Pentatonix concert")
-                {
-                    if (_items[i].Quality > 0)
-                    {
-                        if (_items[i].Name != "Sulfuras, Hand of Ragnaros")
-                        {
-                            _items[i].Quality = _items[i].Quality - 1;
-                        }
-                    }
-                }
-                else
-                {
-                    if (_items[i].Quality < 50)
-                    {
-                        _items[i].Quality = _items[i].Quality + 1;
-
-                        if (_items[i].Name == "Backstage passes to a Pentatonix concert")
-                        {
-                            if (_items[i].SellIn < 11)
-                            {
-                                if (_items[i].Quality < 50)
-                                {
-                                    _items[i].Quality = _items[i].Quality + 1;
-                                }
-                            }
-
-                            if (_items[i].SellIn < 6)
-                            {
-                                if (_items[i].Quality < 50)
-                                {
-                                    _items[i].Quality = _items[i].Quality + 1;
-                                }
-                            }
-                        }
-                    }
-                }
-
-                if (_items[i].Name != "Sulfuras, Hand of Ragnaros")
-                {
-                    _items[i].SellIn = _items[i].SellIn - 1;
-                }
-
-                if (_items[i].SellIn < 0)
-                {
-                    if (_items[i].Name != "Aged Brie")
-                    {
-                        if (_items[i].Name != "Backstage passes to a Pentatonix concert")
-                        {
-                            if (_items[i].Quality > 0)
-                            {
-                                if (_items[i].Name != "Sulfuras, Hand of Ragnaros")
-                                {
-                                    _items[i].Quality = _items[i].Quality - 1;
-                                }
-                            }
-                        }
-                        else
-                        {
-                            _items[i].Quality = _items[i].Quality - _items[i].Quality;
-                        }
-                    }
-                    else
-                    {
-                        if (_items[i].Quality < 50)
-                        {
-                            _items[i].Quality = _items[i].Quality + 1;
-                        }
-                    }
-                }
+                var updater = _qualityFactory.Create(item.Name);
+                updater.UpdateQuality(item);
             }
         }
     }

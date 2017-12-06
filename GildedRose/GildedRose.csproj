@@ -43,12 +43,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GildedRose.cs" />
+    <Compile Include="Interfaces\IQualityUpdateFactory.cs" />
+    <Compile Include="Interfaces\IQualityUpdater.cs" />
     <Compile Include="Item.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Objects\QualityUpdateFactory.cs" />
+    <Compile Include="Updaters\AgedBrieQualityUpdater.cs" />
+    <Compile Include="Updaters\BackstagePassesQualityUpdater.cs" />
+    <Compile Include="Updaters\ConjuredQualityUpdater.cs" />
+    <Compile Include="Updaters\DoNothingQualityUpdater.cs" />
+    <Compile Include="Updaters\StandardQualityUpdater.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
